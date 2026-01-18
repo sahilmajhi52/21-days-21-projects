@@ -40,9 +40,18 @@ body {
 
 .gradient-text {
   background: linear-gradient(to right, #a5b4fc, #c7d2fe, #f5f3ff);
+
+  /* Standard (future-proof) */
+  background-clip: text;
+
+  /* WebKit browsers (Chrome, Edge, Safari) */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  /* Optional fallback */
+  color: transparent;
 }
+
 
 /* Subtitle */
 .qs-subtitle {
