@@ -1,6 +1,6 @@
 
 import React from "react";
-import Navbar from "../Components/NavBar";
+import Navbar from "../Components/Navbar";
 import ProductGrid from "../Components/ProductGrid";
 
 const Home = () => {
