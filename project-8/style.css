@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.tools {
+  margin: 10px;
+  height: 15vh;
+  width: 80vw;
+  border: 0.2px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 16px;
+}
+.colorInput {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.brushSizeInput {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.btn {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  text-transform: capitalize;
+}
+.active {
+  background-color: lightsalmon;
+}
+#canvas {
+  border: 0.2px solid black;
+  border-radius: 16px;
+  background-color: #ffffff;
+}

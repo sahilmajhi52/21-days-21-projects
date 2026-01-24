@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <!-- Project complete thanks for being in class  -->
+  <body>
+    <div class="tools">
+      <div class="colorInput">
+        <label for="color">Color:</label>
+        <input type="color" name="" id="color" value="#000000" />
+      </div>
+      <div class="brushSizeInput">
+        <label for="BrushSize">Brush Size:</label>
+        <input type="range" name="" id="BrushSize" min="1" max="20" value="1" />
+      </div>
+      <button id="pen" class="active btn">Pen</button>
+      <button id="eraser" class="btn">Eraser</button>
+      <button id="square" class="btn">Square</button>
+      <button id="clean" class="btn">Clean</button>
+      <button id="download" class="btn">Download Drawing</button>
+    </div>
+    <canvas id="canvas"></canvas>
+  </body>
+  <script src="./script.js"></script>
+</html>
