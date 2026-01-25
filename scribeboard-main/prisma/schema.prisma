@@ -1,0 +1,251 @@
+// ScribeBoard API - Database Schema
+// Blog CMS with Authors, Posts, Categories, Comments, and Publishing Workflows
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String
+  bio           String?
+  avatar        String?
+  role          UserRole  @default(AUTHOR)
+  isActive      Boolean   @default(true)
+  isVerified    Boolean   @default(false)
+  
+  // Author profile
+  website       String?
+  twitter       String?
+  linkedin      String?
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  // Relations
+  posts         Post[]
+  comments      Comment[]
+  tokens        Token[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  AUTHOR
+  READER
+}
+
+model Token {
+  id          String    @id @default(uuid())
+  token       String    @unique
+  type        TokenType
+  expiresAt   DateTime
+  isRevoked   Boolean   @default(false)
+  
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  
+  @@map("tokens")
+}
+
+enum TokenType {
+  ACCESS
+  REFRESH
+  RESET_PASSWORD
+  VERIFY_EMAIL
+}
+
+// ============================================
+// BLOG CONTENT
+// ============================================
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  color       String?   @default("#6366f1")
+  icon        String?
+  isActive    Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  posts       Post[]
+  
+  @@map("categories")
+}
+
+model Tag {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  posts       PostTag[]
+  
+  @@map("tags")
+}
+
+model Post {
+  id              String      @id @default(uuid())
+  title           String
+  slug            String      @unique
+  excerpt         String?
+  content         String
+  coverImage      String?
+  
+  // Publishing workflow
+  status          PostStatus  @default(DRAFT)
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  canonicalUrl    String?
+  
+  // Engagement
+  viewCount       Int         @default(0)
+  likeCount       Int         @default(0)
+  
+  // Settings
+  allowComments   Boolean     @default(true)
+  isFeatured      Boolean     @default(false)
+  isPinned        Boolean     @default(false)
+  
+  // Reading time (in minutes)
+  readingTime     Int?
+  
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  authorId        String
+  author          User        @relation(fields: [authorId], references: [id])
+  
+  categoryId      String?
+  category        Category?   @relation(fields: [categoryId], references: [id])
+  
+  tags            PostTag[]
+  comments        Comment[]
+  revisions       PostRevision[]
+  
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@index([categoryId])
+  @@map("posts")
+}
+
+enum PostStatus {
+  DRAFT
+  PENDING_REVIEW
+  SCHEDULED
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+model PostTag {
+  postId    String
+  post      Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+// Post revision history for tracking changes
+model PostRevision {
+  id          String    @id @default(uuid())
+  title       String
+  content     String
+  excerpt     String?
+  
+  postId      String
+  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  
+  @@map("post_revisions")
+}
+
+// ============================================
+// COMMENTS & MODERATION
+// ============================================
+
+model Comment {
+  id          String        @id @default(uuid())
+  content     String
+  
+  // Moderation
+  status      CommentStatus @default(PENDING)
+  moderatedAt DateTime?
+  moderatedBy String?
+  
+  // Guest comments (optional)
+  guestName   String?
+  guestEmail  String?
+  
+  // Spam detection
+  ipAddress   String?
+  userAgent   String?
+  isSpam      Boolean       @default(false)
+  
+  // Engagement
+  likeCount   Int           @default(0)
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  postId      String
+  post        Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  authorId    String?
+  author      User?         @relation(fields: [authorId], references: [id])
+  
+  // Nested comments (replies)
+  parentId    String?
+  parent      Comment?      @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     Comment[]     @relation("CommentReplies")
+  
+  @@index([postId, status])
+  @@map("comments")
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SPAM
+}
