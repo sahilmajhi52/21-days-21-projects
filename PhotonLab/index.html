@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="controls">
+        <h1>Photon Lab</h1>
+        <div class="inputContainer">
+          <input class="btnfile" type="file" id="inputFile" />
+        </div>
+        <div class="inputContainer">
+          <label for="brightness">Brightness</label>
+          <input id="brightness" type="range" min="0" max="200" value="100" />
+        </div>
+        <div class="inputContainer">
+          <label for="contrast">Contrast</label>
+          <input id="contrast" type="range" min="0" max="200" value="100" />
+        </div>
+        <div class="inputContainer">
+          <label for="saturation">Saturation</label>
+          <input id="saturation" type="range" min="0" max="200" value="100" />
+        </div>
+        <div class="inputContainer">
+          <label for="blur">Blur</label>
+          <input id="blur" type="range" min="0" max="30" value="0" />
+        </div>
+        <div class="buttonContainer">
+          <button id="grayScale" class="btn">GrayScale</button>
+          <button id="sepia" class="btn">Sepia</button>
+          <button id="reset" class="btn">Reset</button>
+        </div>
+        <button id="downloadBtn">Download Image</button>
+      </div>
+      <div class="canvasContainer">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+  </body>
+  <script src="./script.js"></script>
+</html>

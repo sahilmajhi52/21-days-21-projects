@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #574964;
+}
+.container {
+  height: 90vh;
+  width: 90vw;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  background-color: #574964;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.controls {
+  padding: 10px;
+  height: 100%;
+  width: 40%;
+  /* border: 1px solid red; */
+}
+.canvasContainer {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
+h1 {
+  color: white;
+}
+.inputContainer {
+  margin-top: 26px;
+
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+.buttonContainer {
+  margin-top: 20px;
+}
+.btn {
+  background-color: #ffdab3;
+  border-radius: 5px;
+  color: #4d4040;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+.btnfile {
+  background-color: #c8aaaa;
+  border-radius: 5px;
+  color: #4d4040;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+
+#downloadBtn {
+  width: 100%;
+  margin-top: 20px;
+  background-color: #ffdab3;
+  border-radius: 5px;
+  color: #4d4040;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+
+.canvasContainer {
+  background-color: transparent;
+}
