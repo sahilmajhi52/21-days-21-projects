@@ -1,0 +1,41 @@
+# ============================================
+# Render Blueprint Configuration
+# ============================================
+# This file tells Render how to deploy your app
+# 
+# WORKSHOP: Deploy using this file:
+# 1. Push to GitHub
+# 2. Go to render.com → New → Blueprint
+# 3. Connect your repo
+# 4. Render reads this file and deploys!
+# ============================================
+
+services:
+  - type: web
+    name: shipit-api
+    runtime: node
+    region: oregon  # Change to your preferred region
+    
+    # Build Command
+    buildCommand: npm install
+    
+    # Start Command
+    startCommand: npm start
+    
+    # Environment Variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000  # Render uses port 10000 by default
+      - key: LOG_LEVEL
+        value: info
+    
+    # Health Check (Render will monitor this endpoint)
+    healthCheckPath: /health
+    
+    # Scaling (free tier = 1 instance)
+    plan: free
+    
+    # Auto-deploy when main branch changes
+    autoDeploy: true

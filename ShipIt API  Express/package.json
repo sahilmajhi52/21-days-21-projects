@@ -1,0 +1,34 @@
+{
+  "name": "shipit-api",
+  "version": "1.0.0",
+  "description": "Minimal Express API for deployment workshop - Ship to production in one session!",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "eslint src/",
+    "health": "curl -s http://localhost:3000/health | json_pp"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "deployment",
+    "render",
+    "workshop"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
